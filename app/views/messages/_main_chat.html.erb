@@ -1,10 +1,10 @@
 <%# ヘッダー部分 %>
 <div class ="main-header">
  <div class="summary">
-  hogefuga
+   <%= @room.name %>
  </div>
  <div class="end-btn">
-  <a href="#">チャットを終了する</a>
+     <%= link_to "チャットを終了する", room_path(@room), data: { turbo_method: :delete } %>
  </div>
 
 
@@ -13,7 +13,8 @@
 
 <%# メイン %>
 <div class="main-body">
- <div class="message">
+  <%= render partial: 'message', collection: @messages %>
+ <%# <div class="message">
   <div class="message-upper">
    <div class="message-name">
     Tom
@@ -39,17 +40,17 @@
   <div class="message-lower">
    おはよう
   </div>
- </div>
+ </div> %>
 </div>
 
 <%# メインフッター %>
-<div class="form">
- <div class="form-input">
-  <input class="form-message" placeholder="type a message">
-     <label class="form-image">
+<%= form_with model: [@room, @message], class: 'form', local: true do |f| %>
+  <div class="form-input">
+    <%= f.text_field :content, class: 'form-message', placeholder: 'type a message' %>
+    <label class="form-image">
       <span class="image-file">画像</span>
-      <input type="file" class="hidden">
+      <%= f.file_field :image, class: 'hidden' %>
     </label>
- </div>
- <input class="form-submit" type="submit" value="送信">
-</div>
+  </div>
+  <%= f.submit '送信', class: 'form-submit' %>
+<% end %>
