@@ -29,9 +29,12 @@ begin
 rescue ActiveRecord::PendingMigrationError => e
   abort e.to_s.strip
 end
+# コメントアウトを外す
+Dir[Rails.root.join('spec', 'support', '**', '*.rb')].sort.each { |f| require f }
 I18n.locale = "en"
 RSpec.configure do |config|
   Webdrivers::Chromedriver.required_version = '114.0.5735.90'
+  config.include SignInSupport
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
